@@ -82,5 +82,33 @@ def calculate_runoff_linked(watershed_id: int, rainfall_mm: float, cn_used: int)
     # Return the created RunOffCalculation object
     return runoff
 
+def list_runoff_calculations():
+    # Create a new database session
+    session = SessionLocal()
+
+    # Query all RunOffCalculation records from the database
+    results = session.query(RunOffCalculation).all()
+
+    # Close the database session to free resources
+    session.close()
+
+    # Return the list of all RunOffCalculation objects
+    return results
+
+
+# Function to list all runoff calculations
+def list_runoff_calculations():
+    # Create a new database session
+    session = SessionLocal()
+
+    # Query all RunOffCalculation records from the database
+    results = session.query(RunOffCalculation).all()
+
+    # Close the database session to free resources
+    session.close()
+
+    # Return the list of all RunOffCalculation objects
+    return results
+
 
     
