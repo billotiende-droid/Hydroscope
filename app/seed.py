@@ -10,7 +10,7 @@ def seed():
     session = SessionLocal()
 
     # Define default land use types
-    land_use = [
+    landUse = [
         LandUse(name="Urban", hydrologic_soil_group="C", default_cn=92),
         LandUse(name="Agriculture", hydrologic_soil_group="B", default_cn=75),
         LandUse(name="Forest", hydrologic_soil_group="A", default_cn=55),
@@ -30,3 +30,20 @@ def seed():
         Region(name="Western Kenya"),
         Region(name="Coast"),
     ]
+
+
+    # Add all default land uses, soils, and regions to the session
+    session.add_all(landUse + soils + regions)
+
+    # Commit changes to save them to the database
+    session.commit()
+
+    # Create a sample watershed using the seeded data
+    ws = Watershed(
+        name="Sample Watershed",
+        area_hectares=150,
+        land_use_id=1,  # Link to Urban land use
+        soil_id=2,      # Link to Loam soil type
+        region_id=1     # Link to Nairobi region
+    )
+
