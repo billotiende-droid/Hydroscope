@@ -50,12 +50,19 @@ class RainfallEvent(Base):
     watershed_id = Column(Integer, ForeignKey("watershed.id"))
 
     watershed = relationship("Watershed", back_populates="rainfall_events")
+    runoff_caculations = relationship("RunOffCalculation", back_populates="rainfall_event")
 
 class RunOffCalculation(Base):
     __tablename__ = "runoff_calculation"
     id = Column(Integer, primary_key=True)
     rainfall_id = (Integer, ForeignKey("rainfall_event.id"))
     watershed_id = Column(Integer, ForeignKey("watershed.id"))
-    
+    cn_used = Column(Integer)
+    run_off_depth_mm = Column(Float)
+    run_off_volume_m3 = Column(Float)
+    time_stamp = Column(DateTime, default=datetime.utcnow)
+     
+    rainfall_event = relationship("RainfallEvent", back_populates="runoff_calculations")
+    watershed = relationship("Watershed", back_populates="runoff_calculations")
 
 
