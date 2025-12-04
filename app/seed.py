@@ -47,3 +47,20 @@ def seed():
         region_id=1     # Link to Nairobi region
     )
 
+    # Add the sample watershed to the session
+    session.add(ws)
+
+    # Commit changes to save the watershed
+    session.commit()
+
+    # Print a confirmation message
+    print("Database seeded with default data.")
+
+    # Close the database session
+    session.close()
+
+
+# Run the seed function when this script is executed directly
+if __name__ == "__main__":
+    seed()
+
