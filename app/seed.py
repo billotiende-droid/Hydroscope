@@ -15,3 +15,18 @@ def seed():
         LandUse(name="Agriculture", hydrologic_soil_group="B", default_cn=75),
         LandUse(name="Forest", hydrologic_soil_group="A", default_cn=55),
     ]
+
+
+    # Define default soil types
+    soils = [
+        SoilType(name="Sandy", hydrologic_group="A"),
+        SoilType(name="Loam", hydrologic_group="B"),
+        SoilType(name="Clay", hydrologic_group="D"),
+    ]
+
+    # Define default regions
+    regions = [
+        Region(name="Nairobi"),
+        Region(name="Western Kenya"),
+        Region(name="Coast"),
+    ]
