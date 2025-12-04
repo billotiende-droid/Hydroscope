@@ -18,7 +18,7 @@ class LandUse(Base):
     watersheds = relationship("Watershed", back_populates="land_use")
 
 
-# Model representing soil types (e.g., sandy, clayey)
+# Model representing soil types (e.g., sandy, clay)
 class SoilType(Base):
     __tablename__ = "soil_type"  # Table name in the database
     id = Column(Integer, primary_key=True)  # Primary key
