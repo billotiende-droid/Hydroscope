@@ -60,3 +60,22 @@ def add_watershed():
 
     # Close the database session
     session.close()
+
+    # Function to add a rainfall event interactively via user input
+def add_rainfall():
+    # Prompt user to enter the ID of the watershed
+    ws_id = int(input("Enter Watershed ID: "))
+
+    # Prompt user to enter the rainfall amount in millimeters
+    rainfall_mm = float(input("Enter rainfall in mm: "))
+
+    # Prompt user to enter the date of the rainfall (optional)
+    # If left blank, the function will use the current UTC date
+    date_input = input("Enter date (YYYY-MM-DD) or leave blank: ")
+    date = datetime.strptime(date_input, "%Y-%m-%d").date() if date_input else None
+
+    # Call the CRUD function to add the rainfall event to the database
+    rainfall = add_rainfall_event(ws_id, rainfall_mm, date)
+
+    # Print a confirmation message showing the added rainfall and watershed ID
+    print(f"Added rainfall {rainfall.rainfall_mm} mm to Watershed ID {ws_id}.")
