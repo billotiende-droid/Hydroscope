@@ -11,7 +11,7 @@ class LandUse(Base):
     __tablename__ = "land_use"  # Table name in the database
     id = Column(Integer, primary_key=True)  # Primary key
     name = Column(String, nullable=False)  # Name of the land use (required)
-    hydrologi_soil_group = Column(String)  # Soil group associated with this land use (optional)
+    hydrologic_soil_group = Column(String)  # Soil group associated with this land use (optional)
     default_cn = Column(Integer)  # Default curve number for runoff calculations (optional)
     
     # Relationship to the Watershed model, one LandUse can have many Watersheds
@@ -54,8 +54,10 @@ class Watershed(Base):
     soil = relationship("SoilType", back_populates="watersheds")
     region = relationship("Region", back_populates="watersheds")
     
-    # Relationship to RainfallEvent, one Watershed can have many rainfall events
+    # Relationship to RainfallEvent and RunOffCalculation, one Watershed can have many rainfall events, one runoff calculation for each watershed
     rainfall_events = relationship("RainfallEvent", back_populates="watershed")
+    runoff_calculations = relationship("RunOffCalculation", back_populates="watershed")
+
 
 
 # Model representing rainfall events for a watershed
@@ -75,7 +77,7 @@ class RainfallEvent(Base):
 class RunOffCalculation(Base):
     __tablename__ = "runoff_calculation"  # Table name in the database
     id = Column(Integer, primary_key=True)  # Primary key
-    rainfall_id = (Integer, ForeignKey("rainfall_event.id"))  # Foreign key linking to RainfallEvent
+    rainfall_id = Column(Integer, ForeignKey("rainfall_event.id"))  # Foreign key linking to RainfallEvent
     watershed_id = Column(Integer, ForeignKey("watershed.id"))  # Foreign key linking to Watershed
     cn_used = Column(Integer)  # Curve number used for this calculation
     run_off_depth_mm = Column(Float)  # Calculated runoff depth in millimeters
