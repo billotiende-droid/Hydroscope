@@ -87,3 +87,43 @@ class RunOffCalculation(Base):
     # Relationships to access linked RainfallEvent and Watershed objects
     rainfall_event = relationship("RainfallEvent", back_populates="runoff_calculations")
     watershed = relationship("Watershed", back_populates="runoff_calculations")
+
+    @classmethod
+    def calculate_runoff(cls, session, rainfall_mm, cn, watershed_area):
+        """
+        Calculates runoff depth (mm) and volume (m3) using SCS Curve Number method.
+        Stores the result in the database.
+        """
+        # SCS runoff formula: Q = ((P - 0.2*S)^2) / (P + 0.8*S), S = (25400/CN) - 254
+        S = (25400 / cn) - 254
+        P = rainfall_mm
+        Q = ((P - 0.2 * S) ** 2) / (P + 0.8 * S) if P > 0.2 * S else 0
+
+        # Convert depth to volume (m3) assuming watershed_area in hectares
+        # 1 hectare = 10,000 m2, depth in mm -> m
+        run_off_volume = Q / 1000 * watershed_area * 10000
+
+        # Create a new RunOffCalculation record
+        new_calc = cls(
+            rainfall_id=None,  # Assign appropriate rainfall_event.id if available
+            watershed_id=None,  # Assign appropriate watershed.id if available
+            cn_used=cn,
+            run_off_depth_mm=Q,
+            run_off_volume_m3=run_off_volume
+        )
+        session.add(new_calc)
+        session.commit()
+        return new_calc
+
+    @classmethod
+    def create_for_event(cls, session, rainfall_event, watershed, cn_used=None):
+        """
+        Convenience method to calculate and store runoff for a specific rainfall event and watershed.
+        """
+        cn = cn_used or watershed.land_use.default_cn
+        return cls.calculate_runoff(
+            session,
+            rainfall_mm=rainfall_event.rainfall_mm,
+            cn=cn,
+            watershed_area=watershed.area_hectares
+        )
