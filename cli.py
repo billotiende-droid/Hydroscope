@@ -79,3 +79,21 @@ def add_rainfall():
 
     # Print a confirmation message showing the added rainfall and watershed ID
     print(f"Added rainfall {rainfall.rainfall_mm} mm to Watershed ID {ws_id}.")
+
+    # Function to calculate runoff interactively via user input
+def calculate_runoff():
+    # Prompt user to enter the ID of the watershed
+    ws_id = int(input("Enter Watershed ID: "))
+
+    # Prompt user to enter the rainfall amount in millimeters
+    rainfall_mm = float(input("Enter rainfall in mm: "))
+
+    # Prompt user to enter the Curve Number (CN) to use for calculation
+    cn_used = int(input("Enter Curve Number (CN): "))
+
+    # Call the CRUD function to calculate runoff and store it in the database
+    runoff = calculate_runoff_linked(ws_id, rainfall_mm, cn_used)
+
+    # Print the calculated runoff depth and volume
+    print(f"Runoff depth: {runoff.run_off_depth_mm} mm, volume: {runoff.run_off_volume} m³")
+
