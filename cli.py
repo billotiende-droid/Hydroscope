@@ -110,3 +110,34 @@ def list_runoff():
         )
 
 
+# Main CLI menu for the HydroScope application
+def main_menu():
+    # Loop indefinitely until the user chooses to exit
+    while True:
+        # Display menu options
+        print("\n--- HydroScope CLI ---")
+        print("1. Add Watershed")
+        print("2. Add Rainfall Event")
+        print("3. Calculate Runoff")
+        print("4. List Runoff Calculations")
+        print("5. Exit")
+
+        # Prompt user to select an option
+        choice = input("Select an option: ")
+
+        # Execute the corresponding function based on user choice
+        if choice == "1":
+            add_watershed()
+        elif choice == "2":
+            add_rainfall()
+        elif choice == "3":
+            calculate_runoff()
+        elif choice == "4":
+            list_runoff()
+        elif choice == "5":
+            # Exit the loop and terminate the program
+            print("Goodbye!")
+            break
+        else:
+            # Handle invalid input
+            print("Invalid choice.")
