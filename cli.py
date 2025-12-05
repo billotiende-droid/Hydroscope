@@ -97,3 +97,16 @@ def calculate_runoff():
     # Print the calculated runoff depth and volume
     print(f"Runoff depth: {runoff.run_off_depth_mm} mm, volume: {runoff.run_off_volume} m³")
 
+    # Function to list all recorded runoff calculations
+def list_runoff():
+    # Retrieve all runoff calculation records from the database
+    results = list_runoff_calculations()
+
+    # Loop through each runoff record and print its details
+    for r in results:
+        print(
+            f"ID: {r.id}, Watershed: {r.watershed_id}, Rainfall: {r.rainfall_id}, "
+            f"Depth: {r.run_off_depth_mm} mm, Volume: {r.run_off_volume} m³"
+        )
+
+
